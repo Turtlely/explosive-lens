@@ -26,7 +26,7 @@ class particle:
         self.y += self.v*np.sin(self.theta)*dt
 
 # Numerical sim constants
-dt = 0.005
+dt = 0.01
 num_particles = 100
 
 # Simulation constants
@@ -63,8 +63,8 @@ path = mpltPath.Path([(a,b) for (a,b) in zip(cont_x_points,cont_y_points)])
 dydx = np.nan_to_num(np.gradient(cont_y_points,cont_x_points),True,np.inf)
 
 # Make list of particles for the simulation
-#plist = [particle(0,0,v1, theta) for theta in np.linspace(-0.5415,0.5415,num_particles+1)]
-plist = [particle(0,0,v1, theta) for theta in np.linspace(-np.pi/2,np.pi/2,num_particles+1)]
+plist = [particle(0,0,v1, theta) for theta in np.linspace(-0.5415,0.5415,num_particles+1)]
+#plist = [particle(0,0,v1, theta) for theta in np.linspace(-np.pi/2,np.pi/2,num_particles+1)]
 
 #plist = [particle(0,0,v1,0)]
 
@@ -94,8 +94,8 @@ def animate(i):
         if p.flag:
             index = np.argmin(np.abs(np.array(cont_y_points)-p.y))
             
-            #if p.x > cont_x_points[index]:
-            if path.contains_point((p.x,p.y)):
+            if p.x > cont_x_points[index]:
+            #if path.contains_point((p.x,p.y)):
                 p.color = 'hotpink'
                 p.v = v2
 
@@ -117,13 +117,13 @@ def animate(i):
         x.append(p.x)
         y.append(p.y)
 
-    plt.scatter(x,y)
+    plt.plot(x,y)
     plt.plot(cont_x_points,cont_y_points)
     plt.scatter(d,0)
 
 
-anim = FuncAnimation(fig,animate,interval = 1)
+anim = FuncAnimation(fig,animate,interval = 1,frames=105)
 fig.suptitle('Detonation wave in an explosive lens', fontsize=14)
-#writervideo = animation.FFMpegWriter(fps=60)
-#anim.save('detonation.gif', writer=writervideo)
+writervideo = animation.FFMpegWriter(fps=15)
+anim.save('detonation.gif', writer=writervideo)
 plt.show()
