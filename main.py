@@ -52,11 +52,10 @@ contour = plt.contour(xe, ye, equation, [0])
 cont_x_points = []
 cont_y_points = []
 
-for item in contour.collections:
-    for i in item.get_paths():
-        v = i.vertices
-        cont_x_points = v[:, 0]
-        cont_y_points = v[:, 1]
+for i in contour.get_paths():
+    v = i.vertices
+    cont_x_points = v[:, 0]
+    cont_y_points = v[:, 1]
 
 path = mpltPath.Path([(a,b) for (a,b) in zip(cont_x_points,cont_y_points)])
 
@@ -126,4 +125,5 @@ anim = FuncAnimation(fig,animate,interval = 1,frames=105)
 fig.suptitle('Detonation wave in an explosive lens', fontsize=14)
 writervideo = animation.FFMpegWriter(fps=15)
 anim.save('detonation.gif', writer=writervideo)
-plt.show()
+print("Animation Complete, check 'detonation.gif'")
+#plt.show()
